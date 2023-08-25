@@ -1,12 +1,28 @@
 package org.generation.elotitos.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="productos")
 public class Producto {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idproducto",unique=true, nullable=false)
 	private Long idproducto;
+	@Column(nullable=false,length=45)
 	private String nombre;
+	@Column(nullable=false,length=200)
 	private String descripcion;
+	@Column(nullable=false,length=200)
 	private String imagen;
+	@Column(nullable=false)
 	private Float precio;
-	private static long total = 0;
+//	private static long total = 0;
 
 	public Producto(String nombre, String descripcion, String imagen, Float precio) {
 		super();
@@ -14,13 +30,13 @@ public class Producto {
 		this.descripcion = descripcion;
 		this.imagen = imagen;
 		this.precio = precio;
-		Producto.total++;
-		this.idproducto = Producto.total;
+//		Producto.total++;
+//		this.idproducto = Producto.total;
 	}// constructor
 
 	public Producto() {
-		Producto.total++;
-		this.idproducto = Producto.total;
+//		Producto.total++;
+//		this.idproducto = Producto.total;
 	}// constructor
 
 	public String getNombre() {

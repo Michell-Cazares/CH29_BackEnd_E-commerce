@@ -1,89 +1,77 @@
 package org.generation.elotitos.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.generation.elotitos.model.CompraDetalle;
+import org.generation.elotitos.repository.CompraDetalleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+
 @Service
 public class CompraDetalleService {
-	private final ArrayList<CompraDetalle> listaComprasDetalles = new ArrayList<>();
+	private final CompraDetalleRepository compraDetalleRepository;
 
 	@Autowired
-	public CompraDetalleService() {
-		listaComprasDetalles.add(new CompraDetalle(1, 25.0F, 1L, 1L));
-		listaComprasDetalles.add(new CompraDetalle(2, 50.0F, 1L, 3L));
-		listaComprasDetalles.add(new CompraDetalle(1, 70.0F, 2L, 10L));
-		listaComprasDetalles.add(new CompraDetalle(1, 30.0F, 2L, 6L));
-		listaComprasDetalles.add(new CompraDetalle(1, 30.0F, 3L, 8L));
-		listaComprasDetalles.add(new CompraDetalle(1, 50.0F, 3L, 9L));
-		listaComprasDetalles.add(new CompraDetalle(1, 70.0F, 4L, 10L));
-		listaComprasDetalles.add(new CompraDetalle(1, 50.0F, 4L, 9L));
-		listaComprasDetalles.add(new CompraDetalle(1, 30.0F, 4L, 8L));
-		listaComprasDetalles.add(new CompraDetalle(1, 25.0F, 5L, 1L));
-		listaComprasDetalles.add(new CompraDetalle(2, 50.0F, 5L, 3L));
-	}// constructor
+	public CompraDetalleService(CompraDetalleRepository compraDetalleRepository) {
+		super();
+		this.compraDetalleRepository = compraDetalleRepository;
+	}
 
 	public List<CompraDetalle> getAllComprasDetalles() {
-		// TODO Auto-generated method stub
-		return this.listaComprasDetalles;
-	}
+		return compraDetalleRepository.findAll();
+
+	}// getAllCompras
 
 	public CompraDetalle getCompraDetalle(Long iddetalle) {
 		// TODO Auto-generated method stub
-		CompraDetalle tmp = null;
-		for (CompraDetalle compradetalle : listaComprasDetalles) {
-			if (compradetalle.getIdcompra().equals(iddetalle)) {
-				tmp = compradetalle;
-				break;
-			} // if
-		} // foreach
-		return tmp;
-	}
+		return compraDetalleRepository.findById(iddetalle)
+				.orElseThrow(() -> new IllegalArgumentException("El Producto con el id[" + iddetalle + "] no existe."));
+	}// getCompraDetalle
 
 	public CompraDetalle deleteCompraDetalle(Long iddetalle) {
 		// TODO Auto-generated method stub
-		
+
 		CompraDetalle tmp = null;
-		for (CompraDetalle compradetalle : listaComprasDetalles) {
-			if (compradetalle.getIddetalle().equals(iddetalle)) {
-				tmp = listaComprasDetalles.remove(listaComprasDetalles.indexOf(compradetalle));
-				break;
-			} // if
-		} // foreach
+		if (compraDetalleRepository.existsById(iddetalle)) {
+			tmp = compraDetalleRepository.findById(iddetalle).get();
+			compraDetalleRepository.deleteById(iddetalle);
+		}
+
 		return tmp;
 	}
 
 	public CompraDetalle addCompraDetalle(CompraDetalle compraDetalle) {
 		// TODO Auto-generated method stub
-		listaComprasDetalles.add(compraDetalle);
+		CompraDetalle tmp = null;
+		tmp = compraDetalleRepository.save(compraDetalle);
 		return compraDetalle;
 	}
 
-	public CompraDetalle updateCompraDetalle(Long iddetalle,Integer cantidadProductos, Float ventaTotal, Long idcompra,
+	public CompraDetalle updateCompraDetalle(Long iddetalle, Integer cantidadProductos, Float ventaTotal, Long idcompra,
 			Long idproducto) {
 		// TODO Auto-generated method stub
 		CompraDetalle tmp = null;
 		// TODO Auto-generated method stub
-		for (CompraDetalle compradetalle : listaComprasDetalles) {
-			if (compradetalle.getIddetalle().equals(iddetalle)) {
-				if (cantidadProductos != null)
-					compradetalle.setCantidadProductos(cantidadProductos);
-				if (ventaTotal != null)
-					compradetalle.setVentaTotal(ventaTotal);
-				if (idcompra != null)
-					compradetalle.setIdcompra(idcompra);
-				if (idproducto != null)
-					compradetalle.setIdproducto(idproducto);
-				tmp = compradetalle;
-				break;
-			}
+		if(compraDetalleRepository.existsById(iddetalle)) {
+			tmp = compraDetalleRepository.findById(iddetalle).get();
+			if (cantidadProductos != null)
+				tmp.setCantidadProductos(cantidadProductos);
+			if (ventaTotal != null)
+				tmp.setVentaTotal(ventaTotal);
+			if (idcompra != null)
+				tmp.setIdcompra(idcompra);
+			if (idproducto != null)
+				tmp.setIdproducto(idproducto);
+			compraDetalleRepository.save(tmp);
+		}else {
+			System.out.println("Update- El producto con el ID ["+idproducto+"] no existe.");
 		}
+		
+		
 		return tmp;
 	}
-	
-	
-	
+
 }

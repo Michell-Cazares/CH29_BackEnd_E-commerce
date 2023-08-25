@@ -1,78 +1,68 @@
 package org.generation.elotitos.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.generation.elotitos.model.Compra;
+import org.generation.elotitos.repository.CompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CompraService {
-	private final ArrayList<Compra> listaCompras = new ArrayList<>();
+	private final CompraRepository compraRepository;
 
 	@Autowired
-	public CompraService() {
-		listaCompras.add(new Compra(1L, 75.0F, 3));
-		listaCompras.add(new Compra(5L, 80.0F, 2));
-		listaCompras.add(new Compra(4L, 150.0F, 3));
-		listaCompras.add(new Compra(3L, 100.0F, 2));
-		listaCompras.add(new Compra(1L, 100.0F, 2));
-	}// constructor
+	public CompraService(CompraRepository compraRepository) {
+		super();
+		this.compraRepository = compraRepository;
+	}// cosntructor
 
 	public List<Compra> getAllCompras() {
-		// TODO Auto-generated method stub
-		return this.listaCompras;
-	}
+		return compraRepository.findAll();
+	}// getAllCompras
 
 	public Compra getCompra(Long idcompra) {
 		// TODO Auto-generated method stub
 		Compra tmp = null;
-		for (Compra compra : listaCompras) {
-			if (compra.getIdcompra().equals(idcompra)) {
-				tmp = compra;
-				break;
-			} // if
-		} // foreach
-		return tmp;
-	}
+		return compraRepository.findById(idcompra)
+				.orElseThrow(() -> new IllegalArgumentException("La compra con el id[" + idcompra + "] no existe."));
+	}// getcompra
 
 	public Compra deleteCompra(Long idcompra) {
-		// TODO Auto-generated method stub
 		Compra tmp = null;
-		for (Compra compra : listaCompras) {
-			if (compra.getIdcompra().equals(idcompra)) {
-				tmp = listaCompras.remove(listaCompras.indexOf(compra));
-				break;
-			} // if
-		} // foreach
+		if (compraRepository.existsById(idcompra)) {
+			tmp = compraRepository.findById(idcompra).get();
+			compraRepository.deleteById(idcompra);
+		}
 		return tmp;
-	}
+	}// deletecompra
 
 	public Compra addCompra(Compra compra) {
 		// TODO Auto-generated method stub
+		Compra tmp = null;
 		compra.setFecha(new Date());
-		listaCompras.add(compra);
-		return compra;
+		tmp = compraRepository.save(compra);
+		return tmp;
 	}
 
 	public Compra updateCompra(Long idcompra, Long idusuario, Float pagoTotal, Integer cantidadProductos) {
 		// TODO Auto-generated method stub
 		Compra tmp = null;
 		// TODO Auto-generated method stub
-		for (Compra compra : listaCompras) {
-			if (compra.getIdcompra().equals(idcompra)) {
-				if (idusuario != null)
-					compra.setIdusuario(idusuario);
-				if (pagoTotal != null)
-					compra.setPagoTotal(pagoTotal);
-				if (cantidadProductos != null)
-					compra.setCantidadProductos(cantidadProductos);
-				tmp = compra;
-				break;
-			}
+		if(compraRepository.existsById(idcompra)) {
+			tmp = compraRepository.findById(idcompra).get();
+			if (idusuario != null)
+				tmp.setIdusuario(idusuario);
+			if (pagoTotal != null)
+				tmp.setPagoTotal(pagoTotal);
+			if (cantidadProductos != null)
+				tmp.setCantidadProductos(cantidadProductos);
+			compraRepository.save(tmp);
+		}else {
+			System.out.println("Update- La compra con el id[" + idcompra + "] no existe.");
 		}
+		
 		return tmp;
 	}
 

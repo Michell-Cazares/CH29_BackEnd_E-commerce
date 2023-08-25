@@ -2,26 +2,44 @@ package org.generation.elotitos.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="compras")
 public class Compra {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idcompra", unique=true, nullable=false)
 	private Long idcompra;
+	@Column(nullable=false)
 	private Long idusuario;
+	@Column(nullable=false)
 	private Float pagoTotal;
+	@Column(nullable=false)
 	private Date fecha;
+	@Column(nullable=false)
 	private Integer cantidadProductos;
-	private static long total = 0;
+	//private static long total = 0;
+	
+	
 	public Compra(Long idusuario, Float pagoTotal, Integer cantidadProductos) {
 		super();
 		this.idusuario = idusuario;
 		this.pagoTotal = pagoTotal;
 		this.fecha = new Date();
 		this.cantidadProductos = cantidadProductos;
-		Compra.total++;
-		this.idcompra = Compra.total;
+		//Compra.total++;
+		//this.idcompra = Compra.total;
 	}// constructor
 
 	public Compra() {
-		Compra.total++;
-		this.idcompra = Compra.total;
+		//Compra.total++;
+		//this.idcompra = Compra.total;
 	}// constructor
 
 	public Long getIdusuario() {

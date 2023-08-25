@@ -1,13 +1,30 @@
 package org.generation.elotitos.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="usuarios")
 public class Usuario {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idusuario",unique=true, nullable=false)
 	private Long idusuario;
+	@Column(nullable=false, length = 300)
 	private String correo;
+	@Column(nullable=false, length = 100)
 	private String nombre;
+	@Column(nullable=false, length = 15)
 	private String password;
+	@Column(nullable=false, length = 10)
 	private Long telefono;
+	@Column(nullable=false, length = 50)
 	private String userType;
-	private static long total = 0;
+	//private static long total = 0;
 
 	public Usuario(String correo, String nombre, String password, Long telefono, String userType) {
 		super();
@@ -20,13 +37,13 @@ public class Usuario {
 		} else {
 			this.userType = userType;
 		}
-		Usuario.total++;
-		this.idusuario = Usuario.total;
+		//Usuario.total++;
+		//this.idusuario = Usuario.total;
 	}
 
 	public Usuario() {
-		Usuario.total++;
-		this.idusuario = Usuario.total;
+		//Usuario.total++;
+		//this.idusuario = Usuario.total;
 	}// constructor
 
 	public String getCorreo() {

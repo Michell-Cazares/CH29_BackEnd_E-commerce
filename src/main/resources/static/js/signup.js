@@ -188,9 +188,6 @@ btnRegistrar.addEventListener("click", function (event) {
 });
 
 function registrarUsuario(name, email, phone, contraseña) {
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
   let user = `{
   "nombre": "${name}",
   "telefono": "${phone}",
@@ -203,10 +200,21 @@ function registrarUsuario(name, email, phone, contraseña) {
   this.localStorage.setItem("user", JSON.stringify(users));
 
 
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify(`{
+  "correo": "${email}",
+  "nombre": "${name}",
+  "password": "${contraseña},
+  "telefono": ${phone},
+  "userType": "cliente"
+}`);
+
   var requestOptions = {
     method: 'POST',
     headers: myHeaders,
-    body: JSON.stringify(user),
+    body: raw,
     redirect: 'follow'
   };
 

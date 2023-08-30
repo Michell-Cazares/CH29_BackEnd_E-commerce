@@ -32,7 +32,7 @@ public class Usuario {
 		this.nombre = nombre;
 		this.password = password;
 		this.telefono = telefono;
-		if (userType != "admin") {
+		if (!userType.equals("admin")) {
 			this.userType = "cliente";
 		} else {
 			this.userType = userType;

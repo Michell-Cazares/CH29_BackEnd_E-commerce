@@ -42,7 +42,7 @@ public class UsuarioService {
 
 	public Usuario addUsuario(Usuario usuario) {
 		Usuario tmp = null;
-		if (usuarioRepository.findByEmail(usuario.getCorreo()).isEmpty()) {
+		if (usuarioRepository.findByCorreo(usuario.getCorreo()).isEmpty()) {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword())); // cifrar contraseña
 			tmp = usuarioRepository.save(usuario);
 		} else {
@@ -83,9 +83,9 @@ public class UsuarioService {
 	
 	public boolean validateUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
-		Optional<Usuario> userByEmail = usuarioRepository.findByEmail(usuario.getCorreo());
-		if (userByEmail.isPresent()) {
-			Usuario user = userByEmail.get();
+		Optional<Usuario> userByCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
+		if (userByCorreo.isPresent()) {
+			Usuario user = userByCorreo.get();
 			if (passwordEncoder.matches(usuario.getPassword(), user.getPassword())) {
 				return true;
 			} // if matches

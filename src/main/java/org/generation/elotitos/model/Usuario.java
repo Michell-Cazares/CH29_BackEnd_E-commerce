@@ -25,6 +25,8 @@ public class Usuario {
 	@Column(nullable=false, length = 50)
 	private String userType;
 	//private static long total = 0;
+	
+	public Usuario() {}// constructor
 
 	public Usuario(String correo, String nombre, String password, Long telefono, String userType) {
 		super();
@@ -40,11 +42,6 @@ public class Usuario {
 		//Usuario.total++;
 		//this.idusuario = Usuario.total;
 	}
-
-	public Usuario() {
-		//Usuario.total++;
-		//this.idusuario = Usuario.total;
-	}// constructor
 
 	public String getCorreo() {
 		return correo;

@@ -202,22 +202,22 @@ function registrarUsuario(name, email, phone, contraseña) {
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-
-  var raw = JSON.stringify(`{
-  "correo": "${email}",
-  "nombre": "${name}",
-  "password": "${contraseña},
-  "telefono": ${phone},
-  "userType": "cliente"
-}`);
-
+  
+  var raw = JSON.stringify({
+    "correo": "mc.michellcazares@gmail.com",
+    "nombre": "Michell Iván Cázares Martínez",
+    "password": "Pa$$w0rd",
+    "telefono": 3121346641,
+    "userType": "cliente"
+  });
+  
   var requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
     redirect: 'follow'
   };
-
+  
   fetch("https://elotesgutierrez.onrender.com/api/usuarios/", requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))

@@ -1,0 +1,20 @@
+.title {
+    padding: 20px;
+    margin: 20px;
+    font-weight: 300;
+}
+
+.form-productos {
+    width: 100%;
+    max-width: 700px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-control {
+    border-color: #84BF68;
+    position: flex;
+    box-sizing: border-box;
+    height: auto;
+    font-size: 16px;
+}

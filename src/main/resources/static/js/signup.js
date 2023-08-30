@@ -204,10 +204,10 @@ function registrarUsuario(name, email, phone, contraseña) {
   myHeaders.append("Content-Type", "application/json");
   
   var raw = JSON.stringify({
-    "correo": "mc.michellcazares@gmail.com",
-    "nombre": "Michell Iván Cázares Martínez",
-    "password": "Pa$$w0rd",
-    "telefono": 3121346641,
+    "correo": `${email}`,
+    "nombre": `${name}`,
+    "password": `${contraseña}`,
+    "telefono": `${phone}`,
     "userType": "cliente"
   });
   

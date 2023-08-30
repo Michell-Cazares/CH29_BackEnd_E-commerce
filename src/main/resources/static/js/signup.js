@@ -195,7 +195,7 @@ function registrarUsuario(name, email, phone, contraseña) {
   "nombre": "${name}",
   "telefono": "${phone}",
   "correo": "${email}",
-  "contraseña": "${contraseña}",
+  "password": "${contraseña}",
   "userType": "cliente"
 }`;
 

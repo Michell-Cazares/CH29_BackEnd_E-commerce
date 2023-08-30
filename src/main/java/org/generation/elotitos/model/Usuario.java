@@ -18,7 +18,7 @@ public class Usuario {
 	private String correo;
 	@Column(nullable=false, length = 100)
 	private String nombre;
-	@Column(nullable=false, length = 15)
+	@Column(nullable=false, length = 300)
 	private String password;
 	@Column(nullable=false, length = 10)
 	private Long telefono;

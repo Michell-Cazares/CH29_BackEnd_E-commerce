@@ -1,7 +1,3 @@
-if (this.localStorage.getItem("user-logged") != null) {
-  location.replace("../index.html");
-}//if
-
 let txtNombre = document.getElementById("txtNombre");
 let txtEmail = document.getElementById("txtEmail");
 let txtPhone = document.getElementById("txtPhone");
@@ -164,7 +160,7 @@ btnRegistrar.addEventListener("click", function (event) {
   }
 
 
-  if (!index.includes("nombre") && !index.includes("email") && !index.includes("phone") && !index.includes("contraseña")   && !index.includes("contraConfirm")) {
+  if (!index.includes("nombre") && !index.includes("email") && !index.includes("phone") && !index.includes("contraseña") && !index.includes("contraConfirm")) {
     if (!isRegistered(txtEmail.value)) {
       btnRegistrar.disabled = true;
       btnRegistrar.textContent = "Registrando...";
@@ -192,16 +188,33 @@ btnRegistrar.addEventListener("click", function (event) {
 });
 
 function registrarUsuario(name, email, phone, contraseña) {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
   let user = `{
-      "name": "${name}",
-      "phone": "${phone}",
-      "email": "${email}",
-      "contraseña": "${contraseña}",
-      "userType":"cliente"
-  }`;
+  "nombre": "${name}",
+  "telefono": "${phone}",
+  "correo": "${email}",
+  "contraseña": "${contraseña}",
+  "userType": "cliente"
+}`;
 
   users.push(JSON.parse(user));
   this.localStorage.setItem("user", JSON.stringify(users));
+
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(user),
+    redirect: 'follow'
+  };
+
+  fetch("https://elotesgutierrez.onrender.com/api/usuarios/", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
 }
 
 function isRegistered(email) {
@@ -222,15 +235,15 @@ function isRegistered(email) {
 
 window.addEventListener("load", function (event) {
   event.preventDefault();
-  console.log(users);
+  if (this.localStorage.getItem("user-logged") != null) {
+    location.replace("../index.html");
+  }//if
   if (this.localStorage.getItem("user") != null) {
     JSON.parse(this.localStorage.getItem("user")).forEach((u) => {
       users.push(u);
     }//foreach
     );
-
   }//if
-
 }); // window // load
 
 //Listener para validar el nombre cada vez que el usuario teclee algo en el campo nombre
@@ -357,3 +370,6 @@ function limpiarTodo() {
   btnRegistrar.textContent = "Registrarse";
   btnRegistrar.style.fontWeight = "bold";
 }
+
+
+

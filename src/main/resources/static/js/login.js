@@ -88,7 +88,7 @@ btnLogin.addEventListener("click", function (event) {
       Swal.fire({
         icon: 'success',
         title: '¡Correcto!',
-        text: `¡Bienvenido ${user.name}!`,
+        text: `¡Bienvenido ${user.nombre}!`,
         type: 'success'
       }).then(function () {
         location.replace("../index.html");

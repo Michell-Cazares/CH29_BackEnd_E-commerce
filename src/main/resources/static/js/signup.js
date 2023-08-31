@@ -161,28 +161,11 @@ btnRegistrar.addEventListener("click", function (event) {
 
 
   if (!index.includes("nombre") && !index.includes("email") && !index.includes("phone") && !index.includes("contraseña") && !index.includes("contraConfirm")) {
-    if (!isRegistered(txtEmail.value)) {
-      btnRegistrar.disabled = true;
-      btnRegistrar.textContent = "Registrando...";
-      btnRegistrar.style.fontWeight = "bold";
-      registrarUsuario(txtNombre.value, txtEmail.value, txtPhone.value, txtContraseña.value);
-      limpiarTodo();
-      Swal.fire({
-        icon: 'success',
-        title: '¡Correcto!',
-        text: '¡Se ha registrado con éxito!'
-      }).then(function () {
-        location.replace("./login.html");
-      });
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: '¡Error!',
-        text: '¡El correo que ha ingresado, ya se encuentra registrado!'
-      });
-      txtContraseña.value = "";
-      txtConfirContraseña.value = "";
-    }
+    btnRegistrar.disabled = true;
+    btnRegistrar.textContent = "Registrando...";
+    btnRegistrar.style.fontWeight = "bold";
+    registrarUsuario(txtNombre.value, txtEmail.value, txtPhone.value, txtContraseña.value);
+    limpiarTodo();
   }
 
 });
@@ -202,7 +185,7 @@ function registrarUsuario(name, email, phone, contraseña) {
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  
+
   var raw = JSON.stringify({
     "correo": `${email}`,
     "nombre": `${name}`,
@@ -210,18 +193,41 @@ function registrarUsuario(name, email, phone, contraseña) {
     "telefono": `${phone}`,
     "userType": "cliente"
   });
-  
+
   var requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
     redirect: 'follow'
   };
-  
-  fetch("https://elotesgutierrez.onrender.com/api/usuarios/", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+
+  let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/", requestOptions);
+  promesa.then((response) => {
+    response.json()
+      .then(
+        (data) => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Correcto!',
+            text: '¡Se ha registrado con éxito!'
+          }).then(function () {
+            location.replace("./login.html");
+          });
+        })
+      .catch((error) => {
+        console.error("Problema en el json", error);
+      })
+  }).catch((error) => {
+    Swal.fire({
+      icon: 'error',
+      title: '¡Error!',
+      text: (error, '¡El correo que ha ingresado, ya se encuentra registrado!')
+    });
+  });
+
+  //.then(response => response.text())
+  //.then(result => console.log(result))
+  //.catch(error => console.log('error', error));
 
 }
 

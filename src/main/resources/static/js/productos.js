@@ -1,8 +1,23 @@
 let btnCrearProducto = document.getElementById("btnCrearProducto");
 if (this.localStorage.getItem("user-logged") != null) {
-    if (JSON.parse(this.localStorage.getItem("user-logged")) == "") {
-        btnCrearProducto.style.display = "initial";
-    }
+    let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + JSON.parse(this.localStorage.getItem("user-logged")).idusuario, {
+        method: "GET"
+    });
+
+    promesa.then((response) => {
+        response.json()
+            .then(
+                (data) => {
+                    if (data.userType == "admin") {
+                        btnCrearProducto.style.display = "initial";
+                    }
+                })
+            .catch((error) => {
+                console.error("Problema en el json", error);
+            })
+    }).catch((error) => {
+        console.error(error, "Ocurrió un error en la solicitud");
+    });
 }
 
 
@@ -59,20 +74,3 @@ function addItem(data) {
     }
     );
 }
-
-window.addEventListener("load", function (event) {
-    event.preventDefault();
-    if (this.localStorage.getItem("producto") != null) {
-        JSON.parse(this.localStorage.getItem("producto")).forEach((p) => {
-            addItem({
-                "name": p.name,
-                "img": p.img,
-                "description": p.description,
-                "price": p.price
-            });
-        }//foreach
-        );
-
-    }//if resumen
-
-}); // window // load

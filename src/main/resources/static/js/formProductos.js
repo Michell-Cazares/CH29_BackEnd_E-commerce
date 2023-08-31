@@ -1,6 +1,33 @@
-if (this.localStorage.getItem("user-logged") == null || JSON.parse(this.localStorage.getItem("user-logged")).userType != "admin") {
+if (this.localStorage.getItem("user-logged") == null || !isAdmin()) {
     location.replace("../index.html");
 }//if
+
+function isAdmin(){
+    if (this.localStorage.getItem("user-logged") != null) {
+        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + JSON.parse(this.localStorage.getItem("user-logged")).idusuario, {
+            method: "GET"
+        });
+    
+        promesa.then((response) => {
+            response.json()
+                .then(
+                    (data) => {
+                        if(data.userType!="admin"){
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    })
+                .catch((error) => {
+                    console.error("Problema en el json", error);
+                    return false;
+                })
+        }).catch((error) => {
+            console.error(error, "Ocurrió un error en la solicitud");
+            return false;
+        });
+    }
+}
 
 //elementos del html
 let txtNombreProducto = document.getElementById("txtNombreProducto");

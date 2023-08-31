@@ -165,24 +165,11 @@ btnRegistrar.addEventListener("click", function (event) {
     btnRegistrar.textContent = "Registrando...";
     btnRegistrar.style.fontWeight = "bold";
     registrarUsuario(txtNombre.value, txtEmail.value, txtPhone.value, txtContraseña.value);
-    limpiarTodo();
   }
 
 });
 
 function registrarUsuario(name, email, phone, contraseña) {
-  let user = `{
-  "nombre": "${name}",
-  "telefono": "${phone}",
-  "correo": "${email}",
-  "password": "${contraseña}",
-  "userType": "cliente"
-}`;
-
-  users.push(JSON.parse(user));
-  this.localStorage.setItem("user", JSON.stringify(users));
-
-
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
@@ -205,23 +192,28 @@ function registrarUsuario(name, email, phone, contraseña) {
   promesa.then((response) => {
     response.json()
       .then(
-        (data) => {
+        () => {
           Swal.fire({
             icon: 'success',
             title: '¡Correcto!',
             text: '¡Se ha registrado con éxito!'
           }).then(function () {
+            limpiarTodo();
             location.replace("./login.html");
           });
         })
-      .catch((error) => {
-        console.error("Problema en el json", error);
+      .catch((data) => {
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error!',
+          text: data
+        });
       })
   }).catch((error) => {
     Swal.fire({
       icon: 'error',
       title: '¡Error!',
-      text: (error, '¡El correo que ha ingresado, ya se encuentra registrado!')
+      text: '¡El correo que ha ingresado, ya se encuentra registrado!'
     });
   });
 
@@ -251,12 +243,6 @@ window.addEventListener("load", function (event) {
   event.preventDefault();
   if (this.localStorage.getItem("user-logged") != null) {
     location.replace("../index.html");
-  }//if
-  if (this.localStorage.getItem("user") != null) {
-    JSON.parse(this.localStorage.getItem("user")).forEach((u) => {
-      users.push(u);
-    }//foreach
-    );
   }//if
 }); // window // load
 

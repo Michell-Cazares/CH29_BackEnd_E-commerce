@@ -110,7 +110,7 @@ function iniciarSesion(email, contraseña) {
             location.replace("../index.html");
           });
         })
-      .catch(() => {
+      .catch((error) => {
         Swal.fire({
           icon: 'error',
           title: '¡Error!',
@@ -119,13 +119,18 @@ function iniciarSesion(email, contraseña) {
         btnLogin.disabled = false;
         btnLogin.textContent = "Ingresar";
         btnLogin.style.fontWeight = "bold";
+        console.error("Problema en el json", error);
       })
-  }).catch(() => {
+  }).catch((error) => {
     Swal.fire({
       icon: 'error',
       title: '¡Error!',
-      text: '¡Ocurrió un error, intentalo más tarde!'
+      text: 'Error, intentalo más tarde.'
     });
+    btnLogin.disabled = false;
+    btnLogin.textContent = "Ingresar";
+    btnLogin.style.fontWeight = "bold";
+    console.error(error, "Ocurrió un error en la solicitud");
   });
 }
 

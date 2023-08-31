@@ -130,24 +130,58 @@ btnAgregar.addEventListener("click", function (event) {
         btnAgregar.textContent = "Agregando...";
         btnAgregar.style.fontWeight = "bold";
         guardarProducto(txtNombreProducto.value, product_img.src, txtDescriptionProducto.value, txtPrecioProducto.value);
-        Toast.fire({
-            icon: 'success',
-            title: '¡El producto se registró con éxito!'
-        });
-        limpiarTodo();
     }
 });
 
 function guardarProducto(name, src, description, price) {
-    let producto = `{
-        "name": "${name}",
-        "img": "${src}",
-        "description": "${description}",
-        "price": "${price}"
-    }`;
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-    productos.push(JSON.parse(producto));
-    this.localStorage.setItem("producto", JSON.stringify(productos));
+    var raw = JSON.stringify({
+        "nombre": `${name}`,
+        "descripcion": `${description}`,
+        "imagen": `${src}`,
+        "precio": `${price}`
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    let promesa = fetch("https://elotesgutierrez.onrender.com/api/productos/", requestOptions);
+    promesa.then((response) => {
+        response.json()
+            .then(
+                () => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Correcto!',
+                        text: `¡El producto ${name} se ha registrado con éxito!`
+                    }).then(function () {
+                        limpiarTodo();
+                    });
+                })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: `Error, el producto ${name} ya se encuentra registrado.`
+                });
+                btnAgregar.disabled = false;
+                btnAgregar.textContent = "Agregar";
+                btnAgregar.style.fontWeight = "bold";
+            })
+    }).catch(() => {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: '¡Ocurrió un error, intentalo más tarde!'
+        });
+    });
+
 }
 
 const Toast = Swal.mixin({
@@ -157,21 +191,6 @@ const Toast = Swal.mixin({
     timer: 5000,
     timerProgressBar: true
 });
-
-
-window.addEventListener("load", function (event) {
-    event.preventDefault();
-    console.log(productos);
-    if (this.localStorage.getItem("producto") != null) {
-        JSON.parse(this.localStorage.getItem("producto")).forEach((p) => {
-            productos.push(p);
-        }//foreach
-        );
-
-    }//if
-
-}); // window // load
-
 
 
 btnImg.addEventListener("click", function (event) {

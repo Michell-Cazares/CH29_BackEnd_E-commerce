@@ -34,7 +34,7 @@ public class UsuarioController {
 		return usuarioService.getAllUsuarios();
 	}
 
-	@GetMapping(path = "{prodId}")
+	@GetMapping(path = "{usuarioId}")
 	public Usuario getUser(@PathVariable("usuarioId") Long idusuario) {
 		return usuarioService.getUsuario(idusuario);
 	}

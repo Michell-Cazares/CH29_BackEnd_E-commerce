@@ -202,15 +202,17 @@ function registrarUsuario(name, email, phone, contraseña) {
             location.replace("./login.html");
           });
         })
-      .catch((data) => {
+      .catch(() => {
         Swal.fire({
           icon: 'error',
           title: '¡Error!',
-          text: data.textContent
+          text: 'Error, el correo que intentas registrar ya se encuentra registrado.'
         });
         btnRegistrar.disabled = false;
         btnRegistrar.textContent = "Registrarse";
         btnRegistrar.style.fontWeight = "bold";
+        txtContraseña.value="";
+        txtConfirContraseña.value="";
       })
   }).catch((error) => {
     Swal.fire({

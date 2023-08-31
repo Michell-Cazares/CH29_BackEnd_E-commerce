@@ -81,15 +81,15 @@ public class UsuarioService {
 		return tmp;
 	}// updateUsuario
 	
-	public boolean validateUsuario(Usuario usuario) {
+	public Usuario validateUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
 		Optional<Usuario> userByCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
 		if (userByCorreo.isPresent()) {
 			Usuario user = userByCorreo.get();
 			if (passwordEncoder.matches(usuario.getPassword(), user.getPassword())) {
-				return true;
+				return user;
 			} // if matches
 		} // if isPresent
-		return false;
+		return null;
 	}
 }

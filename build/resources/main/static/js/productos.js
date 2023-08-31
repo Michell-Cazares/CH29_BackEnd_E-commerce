@@ -1,6 +1,6 @@
 let btnCrearProducto = document.getElementById("btnCrearProducto");
 if (this.localStorage.getItem("user-logged") != null) {
-    if (JSON.parse(this.localStorage.getItem("user-logged")).userType == "admin") {
+    if (JSON.parse(this.localStorage.getItem("user-logged")) == "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaW5hbW9saW5hd0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY5MzQ1MjM3MCwiZXhwIjoxNjkzNDU0MTcwfQ.jeYT9yMmWpGyt835O5gAorOQeo0yLdJ0yJVSBoIzaU8") {
         btnCrearProducto.style.display = "initial";
     }
 }
@@ -12,113 +12,53 @@ let description = "";
 let img = "";
 let price = 0.0;
 
+function getData() {
+    let promesa = fetch("https://elotesgutierrez.onrender.com/api/productos/", {
+        method: "GET"
+    });
+
+    promesa.then((response) => {
+        response.json()
+            .then(
+                (data) => {
+                    addItem(data);
+                })
+            .catch((error) => {
+                console.error("Problema en el json", error);
+            })
+    }).catch((error) => {
+        console.error(error, "Ocurrió un error en la solicitud");
+    });
+
+}//get Data
+
+getData();
 //FUNCIÓN PARA AÑADIR UN PRODUCTO CON CARD A LISTA PRODUCTOS
-function addItem(item) {
-    listaProductos.insertAdjacentHTML("beforeend", `            
-    <div class="col-12 col-md-6 col-lg-4 mb-3">
-        <div class="card-box card h-90">
-            <img src="${item.img}" class="card-img-top" alt="Foto elote">
-            <div class="card-body">
-                <h5 class="card-title">${item.name}</h5>
-                <p class= "card-text"> ${item.description} </p>
-                <p class="text-center"><strong>$${item.price}</strong></p>
-                <!-- BOTÓN -->
-                <div class="row">
-                    <div class="col">
-                        <div style="text-align: center">
-                            <button id="btnAgregar" class="btn btn-lg btn-block"
-                                type="submit"><strong>Agregar</strong></button>
+function addItem(data) {
+    data.forEach(producto => {
+        listaProductos.insertAdjacentHTML("beforeend", `            
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <div class="card-box card h-90">
+                <img src="${producto.imagen}" class="card-img-top" alt="Foto elote">
+                <div class="card-body">
+                    <h5 class="card-title">${producto.nombre}</h5>
+                    <p class= "card-text"> ${producto.descripcion} </p>
+                    <p class="text-center"><strong>$${producto.precio}</strong></p>
+                    <!-- BOTÓN -->
+                    <div class="row">
+                        <div class="col">
+                            <div style="text-align: center">
+                                <button id="btnAgregar" class="btn btn-lg btn-block"
+                                    type="submit"><strong>Agregar</strong></button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>`);
-    // const itemsContainer = document.getElementById("list-items");
-    // itemsContainer.innerHTML += itemHTML;
+        </div>`);
+    }
+    );
 }
-
-//Elotes preparados ==========================================================
-
-addItem({
-    'name': 'Elote preparado',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368220/fotosProductos/elotePreparadoTehuacan_iekyha.png',
-    'description': 'Elote preparado con mayonesa, queso, chile, limón y sal. Elote de grano pequeño (Tehuacán), por temporada.',
-    'price': '25'
-});
-
-addItem({
-    'name': 'Elote preparado',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368219/fotosProductos/elotePreparadoCahuazintle_boebce.png',
-    'description': 'Elote preparado con mayonesa, queso, chile, limón y sal. Elote de grano grande (Cacahuazintle), por temporada.',
-    'price': '35'
-});
-
-//Elote enchilado =============================================================
-
-addItem({
-    'name': 'Elote enchilado',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368219/fotosProductos/eloteEnchiladoTehuacan_lvwb7s.png',
-    'description': 'Elote con chile de la casa (jugo de limón con chilito). Elote de grano pequeño (Tehuacán), por temporada.',
-    'price': '25'
-});
-
-addItem({
-    'name': 'Elote enchilado',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368219/fotosProductos/eloteEnchiladoCacahuazintle_esvwom.png',
-    'description': 'Elote con chile de la casa (jugo de limón con chilito). Elote de grano grande (Cacahuazintle), por temporada.',
-    'price': '35'
-});
-
-//Esquite natural =============================================================
-
-addItem({
-    'name': 'Esquite natural preparado chico',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368219/fotosProductos/esquiteHervidoChico_hrl4kw.png',
-    'description': 'Esquite hervido preparado con mayonesa, queso, chile, limón y sal. Vaso chico.',
-    'price': '25'
-});
-
-addItem({
-    'name': 'Esquite natural preparado grande',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368220/fotosProductos/esquiteHervidoGrande_botsxq.png',
-    'description': 'Esquite hervido preparado con mayonesa, queso, chile, limón y sal. Vaso grande.',
-    'price': '30'
-});
-
-//Esquite asado =============================================================
-
-addItem({
-    'name': 'Esquite asado preparado chico',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368229/fotosProductos/esquiteAsadoChico_m504rp.jpg',
-    'description': 'Elote con chile de la casa (jugo de limón con chilito). Elote de grano grande (cacahuazintle), por temporada.',
-    'price': '25'
-});
-
-addItem({
-    'name': 'Esquite asado preparado grande',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368220/fotosProductos/esquiteAsadoGrande_v7yyad.png',
-    'description': 'Esquite asado con chile de arbol, epazote y jalapeño,  preparado con mayonesa, queso, chile, limón y sal.',
-    'price': '30'
-});
-
-//DoriEsquites =============================================================
-
-addItem({
-    'name': 'DoriEsquites',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368219/fotosProductos/doriEsquite_xbsf6z.png',
-    'description': 'Las papitas de su gusto, con esquite mayonesa, queso de nachos, queso blanco, sal, limón, y la salsa que guste.',
-    'price': '50'
-});
-
-//Maruchan =============================================================
-
-addItem({
-    'name': 'Maruchan Esquites',
-    'img': 'https://res.cloudinary.com/dpgloi0zv/image/upload/v1693368220/fotosProductos/maruchanEsquites_lws4wa.png',
-    'description': 'Las papitas de su gusto con Maruchan y con esquite, mayonesa, queso de nachos, queso blanco, sal, limón, y la salsa que guste.',
-    'price': '70'
-});
 
 window.addEventListener("load", function (event) {
     event.preventDefault();

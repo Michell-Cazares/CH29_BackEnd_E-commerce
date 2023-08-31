@@ -228,21 +228,6 @@ function registrarUsuario(name, email, phone, contraseña) {
 
 }
 
-function isRegistered(email) {
-  if (users.length > 0) {
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].email == email) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }//if
-  else {
-    return false;
-  }
-
-}
 
 window.addEventListener("load", function (event) {
   event.preventDefault();

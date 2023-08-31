@@ -92,7 +92,7 @@
 .aboutUs p {
     padding: 3% 8% 3% 8%;
     font-size: 25px;
-    background: linear-gradient(to left, rgba(132, 191, 104, .8), rgba(251, 224, 83, .8)), url(../src/img/fondoElotesGrisBot.jpg);
+    background: linear-gradient(to left, rgba(132, 191, 104, .8), rgba(251, 224, 83, .8)), url(https://res.cloudinary.com/dpgloi0zv/image/upload/v1693369526/fondoElotesGrisBot_zgasm2.jpg);
     background-size: cover;
     border-radius: 20px;
     font-weight: 500;

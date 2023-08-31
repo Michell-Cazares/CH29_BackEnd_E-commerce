@@ -110,7 +110,7 @@ function iniciarSesion(email, contraseña) {
             location.replace("../index.html");
           });
         })
-      .catch(() => {
+      .catch((error) => {
         Swal.fire({
           icon: 'error',
           title: '¡Error!',
@@ -121,7 +121,7 @@ function iniciarSesion(email, contraseña) {
         btnLogin.style.fontWeight = "bold";
         console.error("Problema en el json", error);
       })
-  }).catch(() => {
+  }).catch((error) => {
     Swal.fire({
       icon: 'error',
       title: '¡Error!',

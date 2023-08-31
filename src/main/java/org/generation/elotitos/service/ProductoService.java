@@ -39,7 +39,11 @@ public class ProductoService {
 	public Producto addProducto(Producto producto) {
 		// TODO Auto-generated method stub
 		Producto tmp = null;
-		tmp = productoRepository.save(producto);
+		if (productoRepository.findByNombre(producto.getNombre()).isEmpty()) {
+			tmp = productoRepository.save(producto);
+		} else {
+			System.out.println("Ya existe el producto con el nombre [" + producto.getNombre() + "]");
+		}
 		return tmp;
 	}// addProducto
 

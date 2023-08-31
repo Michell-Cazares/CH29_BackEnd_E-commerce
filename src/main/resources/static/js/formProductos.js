@@ -2,19 +2,20 @@ if (this.localStorage.getItem("user-logged") == null || !isAdmin()) {
     location.replace("../index.html");
 }//if
 
-function isAdmin(){
+function isAdmin() {
+    console.log(this.localStorage.getItem("user-logged").charAt(this.localStorage.getItem("user-logged").length - 1));
     if (this.localStorage.getItem("user-logged") != null) {
-        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + JSON.parse(this.localStorage.getItem("user-logged")).idusuario, {
+        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").charAt(this.localStorage.getItem("user-logged").length - 1), {
             method: "GET"
         });
-    
+
         promesa.then((response) => {
             response.json()
                 .then(
                     (data) => {
-                        if(data.userType!="admin"){
+                        if (data.userType != "admin") {
                             return false;
-                        }else{
+                        } else {
                             return true;
                         }
                     })

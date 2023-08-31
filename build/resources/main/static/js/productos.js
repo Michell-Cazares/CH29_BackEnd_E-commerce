@@ -6,7 +6,9 @@ if (isAdmin()) {
 function isAdmin() {
     console.log(this.localStorage.getItem("user-logged").slice(-1));
     if (this.localStorage.getItem("user-logged") != null) {
-        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").slice(-1), {
+        let accessToken = this.localStorage.getItem("user-logged");
+        let id = accessToken.charAt(accessToken.length - 2);
+        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + id, {
             method: "GET"
         });
 

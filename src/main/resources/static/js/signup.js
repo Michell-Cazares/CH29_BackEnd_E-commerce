@@ -214,11 +214,11 @@ function registrarUsuario(name, email, phone, contraseña) {
         txtContraseña.value="";
         txtConfirContraseña.value="";
       })
-  }).catch((error) => {
+  }).catch(() => {
     Swal.fire({
       icon: 'error',
       title: '¡Error!',
-      text: '¡El correo que ha ingresado, ya se encuentra registrado!'
+      text: '¡Ocurrió un error, intentalo más tarde!'
     });
   });
 

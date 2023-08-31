@@ -327,7 +327,7 @@ window.addEventListener("load", function (event) {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `¡Hasta la próxima\n${userlogged.name}!`,
+            title: `¡Hasta la próxima!`,
             showConfirmButton: false,
             timer: 1499
           })

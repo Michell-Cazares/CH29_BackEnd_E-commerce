@@ -1,10 +1,3 @@
-if (this.localStorage.getItem("user-logged") != null) {
-  location.replace("../index.html");
-}//if
-
-
-
-
 let txtEmail = document.getElementById("txtEmail");
 let txtContraseña = document.getElementById("txtPassword");
 let btnLogin = document.getElementById("btnLogin");
@@ -76,74 +69,72 @@ btnLogin.addEventListener("click", function (event) {
     removeAllInstances(index, "contraseña");
   }
 
-  if (validarEmail(txtEmail.value) && validarContra(txtContraseña.value)) {
-    let user = validarSesion(txtEmail.value, txtContraseña.value);
-    console.log(user);
-    if (user != null) {
-      iniciarSesion(txtEmail.value, txtContraseña.value);
-      limpiarTodo();
-      btnLogin.disabled = true;
-      btnLogin.textContent = "Iniciando Sesión...";
-      btnLogin.style.fontWeight = "bold";
-      Swal.fire({
-        icon: 'success',
-        title: '¡Correcto!',
-        text: `¡Bienvenido ${user.nombre}!`,
-        type: 'success'
-      }).then(function () {
-        location.replace("../index.html");
-      });
-    } else {
-      if (!index.includes("email") || !index.includes("contraseña")) {
-        alertValidaciones.insertAdjacentHTML("afterbegin", `Los <strong> Datos </strong> no son correctos. <br/> `);
-        alertValidaciones.style.color = "red";
-        txtEmail.style.border = "solid thin red";
-        txtContraseña.style.border = "solid thin red";
-        index.push("email");
-        index.push("contraseña");
-      }
-    }
+  if (!index.includes("email") && !index.includes("contraseña")) {
+    btnLogin.disabled = true;
+    btnLogin.textContent = "Iniciando Sesión...";
+    btnLogin.style.fontWeight = "bold";
+    iniciarSesion(txtEmail.value, txtContraseña.value);
+    limpiarTodo();
   }
 });
 
-
-function validarSesion(email, contraseña) {
-  if (users.length > 0) {
-    for (let i = 0; i < users.length; i++) {
-      console.log(users[i]);
-      if (users[i].email == email && users[i].contraseña == contraseña) {
-        return users[i];
-      }
-    }//for
-  }//if
-  else {
-    return null;
-  }
-
-}
-
 function iniciarSesion(email, contraseña) {
-  if (this.localStorage.getItem("user") != null) {
-    JSON.parse(this.localStorage.getItem("user")).forEach((u) => {
-      if (u.email == email && u.contraseña == contraseña) {
-        this.localStorage.setItem("user-logged", JSON.stringify(u));
-      }
-    }//foreach
-    );
-  }//if
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify({
+    "correo": `${email}`,
+    "password": `${contraseña}`
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  let promesa = fetch("https://elotesgutierrez.onrender.com/api/login/", requestOptions);
+  promesa.then((response) => {
+    response.json()
+      .then(
+        (data) => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Correcto!',
+            text: `¡Bienvenido!`,
+            type: 'success'
+          }).then(function () {
+            this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
+            limpiarTodo();
+            location.replace("../index.html");
+          });
+        })
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error!',
+          text: 'Error, los datos ingresados no son correctos.'
+        });
+        btnLogin.disabled = false;
+        btnLogin.textContent = "Ingresar";
+        btnLogin.style.fontWeight = "bold";
+      })
+  }).catch(() => {
+    Swal.fire({
+      icon: 'error',
+      title: '¡Error!',
+      text: '¡Ocurrió un error, intentalo más tarde!'
+    });
+  });
 }
 
 window.addEventListener("load", function (event) {
   event.preventDefault();
   console.log(users);
-  if (this.localStorage.getItem("user") != null) {
-    JSON.parse(this.localStorage.getItem("user")).forEach((u) => {
-      users.push(u);
-    }//foreach
-    );
-
+  if (this.localStorage.getItem("user-logged") != null) {
+    location.replace("../index.html");
   }//if
-
 }); // window // load
 
 //Remueve todas las instancias de un objeto dado (item) que se encuentre en el arreglo index

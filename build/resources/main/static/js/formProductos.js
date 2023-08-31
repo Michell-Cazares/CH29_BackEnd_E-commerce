@@ -3,9 +3,9 @@ if (this.localStorage.getItem("user-logged") == null || !isAdmin()) {
 }//if
 
 function isAdmin() {
-    console.log(this.localStorage.getItem("user-logged").charAt(this.localStorage.getItem("user-logged").length - 1));
+    console.log(this.localStorage.getItem("user-logged").slice(-1));
     if (this.localStorage.getItem("user-logged") != null) {
-        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").charAt(this.localStorage.getItem("user-logged").length - 1), {
+        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").slice(-1), {
             method: "GET"
         });
 

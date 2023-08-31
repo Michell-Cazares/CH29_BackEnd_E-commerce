@@ -1,23 +1,33 @@
 let btnCrearProducto = document.getElementById("btnCrearProducto");
-if (this.localStorage.getItem("user-logged") != null) {
-    let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + JSON.parse(this.localStorage.getItem("user-logged")).idusuario, {
-        method: "GET"
-    });
+if (isAdmin()) {
+    btnCrearProducto.style.display = "initial";
+}
 
-    promesa.then((response) => {
-        response.json()
-            .then(
-                (data) => {
-                    if (data.userType == "admin") {
-                        btnCrearProducto.style.display = "initial";
-                    }
+function isAdmin() {
+    console.log(this.localStorage.getItem("user-logged").slice(-1));
+    if (this.localStorage.getItem("user-logged") != null) {
+        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").slice(-1), {
+            method: "GET"
+        });
+
+        promesa.then((response) => {
+            response.json()
+                .then(
+                    (data) => {
+                        if (data.userType == "admin") {
+                            return true;
+                        }
+                    })
+                .catch((error) => {
+                    console.error("Problema en el json", error);
+                    return false;
                 })
-            .catch((error) => {
-                console.error("Problema en el json", error);
-            })
-    }).catch((error) => {
-        console.error(error, "Ocurrió un error en la solicitud");
-    });
+        }).catch((error) => {
+            console.error(error, "Ocurrió un error en la solicitud");
+            return false;
+        });
+    }
+    return false;
 }
 
 

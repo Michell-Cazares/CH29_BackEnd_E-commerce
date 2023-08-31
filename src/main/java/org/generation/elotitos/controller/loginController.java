@@ -32,7 +32,7 @@ public class loginController {
 	@PostMapping
 	public Token loginUsuario(@RequestBody Usuario usuario) throws ServletException {
 		usuario = usuarioService.validateUsuario(usuario);
-		if (usuario !=null) {
+		if (usuario != null) {
 			return new Token(generateToken(usuario.getCorreo()).concat(usuario.getId().toString()));
 		} // if
 		throw new ServletException("Nombre de usuario o contraseña incorrectos.");

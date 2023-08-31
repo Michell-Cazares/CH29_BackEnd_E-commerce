@@ -1,15 +1,8 @@
 let btnCrearProducto = document.getElementById("btnCrearProducto");
-if (isAdmin()) {
-    btnCrearProducto.style.display = "initial";
-}
-
+isAdmin();
 function isAdmin() {
     if (this.localStorage.getItem("user-logged") != null) {
-        let accessToken = this.localStorage.getItem("user-logged");
-        let id = accessToken.charAt(accessToken.length - 2);
-        console.log(accessToken);
-        console.log(id);
-        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + id, {
+        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").charAt(this.localStorage.getItem("user-logged").length - 2), {
             method: "GET"
         });
 
@@ -17,22 +10,19 @@ function isAdmin() {
             response.json()
                 .then(
                     (data) => {
-                        console.log(data);
-                        console.log(data.userType);
                         if (data.userType == "admin") {
-                            return true;
+                            btnCrearProducto.style.display = "initial";
+                        } else {
+                            btnCrearProducto.style.display = "none";
                         }
                     })
                 .catch((error) => {
                     console.error("Problema en el json", error);
-                    return false;
                 })
         }).catch((error) => {
             console.error(error, "Ocurrió un error en la solicitud");
-            return false;
         });
     }
-    return false;
 }
 
 

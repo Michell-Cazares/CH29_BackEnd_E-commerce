@@ -1,11 +1,13 @@
-if (this.localStorage.getItem("user-logged") == null || !isAdmin()) {
+if (this.localStorage.getItem("user-logged") == null) {
     location.replace("../index.html");
 }//if
+else {
+    isAdmin();
+}
 
 function isAdmin() {
-    console.log(this.localStorage.getItem("user-logged").slice(-1));
     if (this.localStorage.getItem("user-logged") != null) {
-        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").slice(-1), {
+        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").charAt(this.localStorage.getItem("user-logged").length - 2), {
             method: "GET"
         });
 
@@ -14,18 +16,14 @@ function isAdmin() {
                 .then(
                     (data) => {
                         if (data.userType != "admin") {
-                            return false;
-                        } else {
-                            return true;
+                            location.replace("../index.html");
                         }
                     })
                 .catch((error) => {
                     console.error("Problema en el json", error);
-                    return false;
                 })
         }).catch((error) => {
             console.error(error, "Ocurrió un error en la solicitud");
-            return false;
         });
     }
 }

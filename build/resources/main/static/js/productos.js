@@ -1,6 +1,6 @@
 let btnCrearProducto = document.getElementById("btnCrearProducto");
 if (this.localStorage.getItem("user-logged") != null) {
-    if (JSON.parse(this.localStorage.getItem("user-logged")) == "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaW5hbW9saW5hd0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY5MzQ1MjM3MCwiZXhwIjoxNjkzNDU0MTcwfQ.jeYT9yMmWpGyt835O5gAorOQeo0yLdJ0yJVSBoIzaU8") {
+    if (JSON.parse(this.localStorage.getItem("user-logged")) == "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaW5hbW9saW5hd0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY5MzQ1NzczMCwiZXhwIjoxNjkzNDU5NTMwfQ.yJ6RSmXdlOG42DiOB_AK7JZauyxAte2UtfJm2Mlx9Ok") {
         btnCrearProducto.style.display = "initial";
     }
 }

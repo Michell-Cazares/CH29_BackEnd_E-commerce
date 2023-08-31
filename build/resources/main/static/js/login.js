@@ -99,6 +99,7 @@ function iniciarSesion(email, contraseña) {
     response.json()
       .then(
         (data) => {
+          console.log(data);
           if (data != undefined) {
             Swal.fire({
               icon: 'success',

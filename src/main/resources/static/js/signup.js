@@ -222,10 +222,6 @@ function registrarUsuario(name, email, phone, contraseña) {
     });
   });
 
-  //.then(response => response.text())
-  //.then(result => console.log(result))
-  //.catch(error => console.log('error', error));
-
 }
 
 

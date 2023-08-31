@@ -99,16 +99,27 @@ function iniciarSesion(email, contraseña) {
     response.json()
       .then(
         (data) => {
-          Swal.fire({
-            icon: 'success',
-            title: '¡Correcto!',
-            text: `¡Bienvenido!`,
-            type: 'success'
-          }).then(function () {
-            this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
-            limpiarTodo();
-            location.replace("../index.html");
-          });
+          if (data != undefined) {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Correcto!',
+              text: `¡Bienvenido!`,
+              type: 'success'
+            }).then(function () {
+              this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
+              limpiarTodo();
+              location.replace("../index.html");
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: '¡Error!',
+              text: 'Error, los datos ingresados no son correctos.'
+            });
+            btnLogin.disabled = false;
+            btnLogin.textContent = "Ingresar";
+            btnLogin.style.fontWeight = "bold";
+          }
         })
       .catch((error) => {
         Swal.fire({

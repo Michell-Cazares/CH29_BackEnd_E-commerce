@@ -25,13 +25,7 @@ function isAdmin() {
     }
 }
 
-
 let listaProductos = document.getElementById("listaProductos");
-let name = "";
-let description = "";
-let img = "";
-let price = 0.0;
-
 function getData() {
     let promesa = fetch("https://elotesgutierrez.onrender.com/api/productos/", {
         method: "GET"

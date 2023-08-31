@@ -99,30 +99,18 @@ function iniciarSesion(email, contraseña) {
     response.json()
       .then(
         (data) => {
-          console.log(data);
-          if (data != undefined) {
-            Swal.fire({
-              icon: 'success',
-              title: '¡Correcto!',
-              text: `¡Bienvenido!`,
-              type: 'success'
-            }).then(function () {
-              this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
-              limpiarTodo();
-              location.replace("../index.html");
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: '¡Error!',
-              text: 'Error, los datos ingresados no son correctos.'
-            });
-            btnLogin.disabled = false;
-            btnLogin.textContent = "Ingresar";
-            btnLogin.style.fontWeight = "bold";
-          }
+          Swal.fire({
+            icon: 'success',
+            title: '¡Correcto!',
+            text: `¡Bienvenido!`,
+            type: 'success'
+          }).then(function () {
+            this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
+            limpiarTodo();
+            location.replace("../index.html");
+          });
         })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire({
           icon: 'error',
           title: '¡Error!',
@@ -133,7 +121,7 @@ function iniciarSesion(email, contraseña) {
         btnLogin.style.fontWeight = "bold";
         console.error("Problema en el json", error);
       })
-  }).catch((error) => {
+  }).catch(() => {
     Swal.fire({
       icon: 'error',
       title: '¡Error!',

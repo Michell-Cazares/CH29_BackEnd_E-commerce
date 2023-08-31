@@ -206,8 +206,11 @@ function registrarUsuario(name, email, phone, contraseña) {
         Swal.fire({
           icon: 'error',
           title: '¡Error!',
-          text: data
+          text: data.textContent
         });
+        btnRegistrar.disabled = false;
+        btnRegistrar.textContent = "Registrarse";
+        btnRegistrar.style.fontWeight = "bold";
       })
   }).catch((error) => {
     Swal.fire({

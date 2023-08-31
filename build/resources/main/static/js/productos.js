@@ -4,10 +4,11 @@ if (isAdmin()) {
 }
 
 function isAdmin() {
-    console.log(this.localStorage.getItem("user-logged").slice(-1));
     if (this.localStorage.getItem("user-logged") != null) {
         let accessToken = this.localStorage.getItem("user-logged");
         let id = accessToken.charAt(accessToken.length - 2);
+        console.log(accessToken);
+        console.log(id);
         let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + id, {
             method: "GET"
         });
@@ -16,6 +17,8 @@ function isAdmin() {
             response.json()
                 .then(
                     (data) => {
+                        console.log(data);
+                        console.log(data.userType);
                         if (data.userType == "admin") {
                             return true;
                         }

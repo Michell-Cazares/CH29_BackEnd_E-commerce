@@ -6,6 +6,7 @@ import org.generation.elotitos.model.ChangePassword;
 import org.generation.elotitos.model.Usuario;
 import org.generation.elotitos.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 /// HTTP POST 	- GET  - PUT	- DELETE
 
 @RestController
+@CrossOrigin(origins="*")
 @RequestMapping(path = "/api/usuarios/") // http://localhost:8080/api/usuarios/
 public class UsuarioController {
 	private final UsuarioService usuarioService;

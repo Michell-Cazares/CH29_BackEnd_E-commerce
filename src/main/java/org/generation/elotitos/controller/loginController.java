@@ -10,6 +10,7 @@ import org.generation.elotitos.model.Token;
 import org.generation.elotitos.model.Usuario;
 import org.generation.elotitos.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
+@CrossOrigin(origins="*")
 @RequestMapping(path = "/api/login/") // http://localhost:8080/api/login/
 public class loginController {
 	private final UsuarioService usuarioService;
@@ -36,7 +38,7 @@ public class loginController {
 		if (usuario != null) {
 			return new Token(generateToken(usuario.getCorreo()).concat(usuario.getId().toString()));
 		} // if
-		throw new ServletException("Nombre de usuario o contraseña incorrectos.");
+		throw new ServletException("Nombre de usuario o contraseña incorrectos");
 	}// loginUsuario
 
 	private String generateToken(String username) {

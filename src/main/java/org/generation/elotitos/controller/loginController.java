@@ -32,6 +32,7 @@ public class loginController {
 	@PostMapping
 	public Token loginUsuario(@RequestBody Usuario usuario) throws ServletException {
 		usuario = usuarioService.validateUsuario(usuario);
+		System.out.println(usuario);
 		if (usuario != null) {
 			return new Token(generateToken(usuario.getCorreo()).concat(usuario.getId().toString()));
 		} // if

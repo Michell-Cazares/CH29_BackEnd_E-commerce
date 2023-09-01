@@ -149,30 +149,6 @@ function removeAllInstances(arr, item) {
   }
 }
 
-txtEmail.addEventListener("keyup", function (event) {
-  event.preventDefault();
-  if (!index.includes("email")) {
-    alertValidaciones.innerHTML = "";
-    alerta.style.display = "none";
-    txtEmail.style.border = "";
-    txtContraseña.style.border = "";
-    removeAllInstances(index, "email");
-    removeAllInstances(index, "contrasña");
-  }
-});
-
-txtContraseña.addEventListener("keyup", function (event) {
-  event.preventDefault();
-  if (!index.includes("contraseña")) {
-    alertValidaciones.innerHTML = "";
-    alerta.style.display = "none";
-    txtEmail.style.border = "";
-    txtContraseña.style.border = "";
-    removeAllInstances(index, "email");
-    removeAllInstances(index, "contrasña");
-  }
-});
-
 
 // limpiar Todo
 function limpiarTodo() {

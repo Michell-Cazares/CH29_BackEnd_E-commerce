@@ -132,26 +132,6 @@ function iniciarSesion(email, contraseña) {
     });
 }
 
-function getUser() {
-  let accessToken = JSON.parse(this.localStorage.getItem("user"));
-  let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + accessToken.slice(-1), {
-    method: "GET"
-  });
-
-  promesa.then((response) => {
-    response.json()
-      .then(
-        (data) => {
-         this.localStorage.setItem("user", JSON.stringify(data));
-        })
-      .catch((error) => {
-        console.error("Problema en el json", error);
-      })
-  }).catch((error) => {
-    console.error(error, "Ocurrió un error en la solicitud");
-  });
-}
-
 
 
 window.addEventListener("load", function (event) {

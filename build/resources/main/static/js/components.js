@@ -308,8 +308,10 @@ window.addEventListener("load", function (event) {
   let btnIniciarSesion = document.getElementById("btnIniciarSesion");
   let btnRegistrate = document.getElementById("btnRegistrate");
   let btnLogout = document.getElementById("btnLogout");
-  if (userlogged != null) {
-    getUser();
+  if (userlogged != null || userlogged != undefined) {
+    if (this.localStorage.getItem("user") == undefined || this.localStorage.getItem("user") == null) {
+      getUser();
+    }
     btnIniciarSesion.style.display = "none";
     btnRegistrate.style.display = "none";
     btnLogout.style.display = "initial";
@@ -328,7 +330,7 @@ window.addEventListener("load", function (event) {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `¡Hasta la próxima,\n${JSON.parse(this.localStorage.getItem("user")).nombre}!`,
+            title: `¡Hasta la próxima,\n${JSON.parse(localStorage.getItem("user")).nombre}!`,
             showConfirmButton: false,
             timer: 1499
           })
@@ -348,8 +350,7 @@ window.addEventListener("load", function (event) {
 }); // window // load
 
 function getUser() {
-  let accessToken = JSON.parse(this.localStorage.getItem("user"));
-  let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + accessToken.slice(-1), {
+  let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + userlogged.slice(-1), {
     method: "GET"
   });
 

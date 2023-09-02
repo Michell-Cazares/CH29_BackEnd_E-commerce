@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 /// HTTP POST 	- GET  - PUT	- DELETE
 
 @RestController
-@CrossOrigin(origins="*")
+//@CrossOrigin(origins="*")
 @RequestMapping(path = "/api/usuarios/") // http://localhost:8080/api/usuarios/
 public class UsuarioController {
 	private final UsuarioService usuarioService;

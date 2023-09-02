@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 /// CRUD Create - Read - Update - Delete
 /// HTTP POST 	- GET  - PUT	- DELETE
 @RestController
-@CrossOrigin(origins="*")
+//@CrossOrigin(origins="*")
 @RequestMapping(path = "/api/compras/") // http://localhost:8080/api/compras/
 public class CompraController {
 	private final CompraService compraService;

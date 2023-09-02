@@ -97,7 +97,6 @@ function iniciarSesion(email, contraseña) {
         // La respuesta fue exitosa (código de respuesta HTTP 200)
         response.json().then(data => {
           this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
-          getUser(data.accessToken);
           Swal.fire({
             icon: 'success',
             title: '¡Correcto!',
@@ -133,8 +132,8 @@ function iniciarSesion(email, contraseña) {
     });
 }
 
-function getUser(accessToken) {
-  console.log(accessToken.slice(-1));
+function getUser() {
+  let accessToken = JSON.parse(this.localStorage.getItem("user"));
   let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + accessToken.slice(-1), {
     method: "GET"
   });

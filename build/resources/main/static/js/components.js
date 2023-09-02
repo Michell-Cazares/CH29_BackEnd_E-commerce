@@ -309,6 +309,7 @@ window.addEventListener("load", function (event) {
   let btnRegistrate = document.getElementById("btnRegistrate");
   let btnLogout = document.getElementById("btnLogout");
   if (userlogged != null) {
+    getUser();
     btnIniciarSesion.style.display = "none";
     btnRegistrate.style.display = "none";
     btnLogout.style.display = "initial";
@@ -327,7 +328,7 @@ window.addEventListener("load", function (event) {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `¡Hasta la próxima, ${JSON.parse(localStorage.getItem("user")).nombre}!`,
+            title: `¡Hasta la próxima,\n${JSON.parse(this.localStorage.getItem("user")).nombre}!`,
             showConfirmButton: false,
             timer: 1499
           })
@@ -345,3 +346,23 @@ window.addEventListener("load", function (event) {
     });
   }//if
 }); // window // load
+
+function getUser() {
+  let accessToken = JSON.parse(this.localStorage.getItem("user"));
+  let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + accessToken.slice(-1), {
+    method: "GET"
+  });
+
+  promesa.then((response) => {
+    response.json()
+      .then(
+        (data) => {
+          this.localStorage.setItem("user", JSON.stringify(data));
+        })
+      .catch((error) => {
+        console.error("Problema en el json", error);
+      })
+  }).catch((error) => {
+    console.error(error, "Ocurrió un error en la solicitud");
+  });
+}

@@ -12,8 +12,6 @@ let alertValidaciones = document.getElementById("alertValidaciones");
 //Bandera para evitar repetir la alerta de cada campo
 let index = [];
 
-//Arreglo para guardar los usuarios en el local storage
-let users = [];
 
 //Función para validar que la contraseña contenga de 8-15caracteres, 1mays y 1min, 1número, no espacios en blanco 1carac especial.
 //let regexContra = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
@@ -74,7 +72,6 @@ btnLogin.addEventListener("click", function (event) {
     btnLogin.textContent = "Iniciando Sesión...";
     btnLogin.style.fontWeight = "bold";
     iniciarSesion(txtEmail.value, txtContraseña.value);
-    limpiarTodo();
   }
 });
 
@@ -94,23 +91,24 @@ function iniciarSesion(email, contraseña) {
     redirect: 'follow'
   };
 
-  let promesa = fetch("https://elotesgutierrez.onrender.com/api/login/", requestOptions);
-  promesa.then((response) => {
-    response.json()
-      .then(
-        (data) => {
+  fetch("https://elotesgutierrez.onrender.com/api/login/", requestOptions)
+    .then(response => {
+      if (response.ok) {
+        // La respuesta fue exitosa (código de respuesta HTTP 200)
+        response.json().then(data => {
+          this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
+          getUser(data.accessToken);
           Swal.fire({
             icon: 'success',
             title: '¡Correcto!',
-            text: `¡Bienvenido!`,
-            type: 'success'
+            text: `¡Bienvenido a Elotes Gutiérrez!` // Agregamos el nombre del usuario al mensaje
           }).then(function () {
-            this.localStorage.setItem("user-logged", JSON.stringify(data.accessToken));
             limpiarTodo();
             location.replace("../index.html");
           });
-        })
-      .catch((error) => {
+        });
+      } else {
+        // La respuesta fue un error (por ejemplo, código de respuesta HTTP 4xx o 5xx)
         Swal.fire({
           icon: 'error',
           title: '¡Error!',
@@ -119,24 +117,46 @@ function iniciarSesion(email, contraseña) {
         btnLogin.disabled = false;
         btnLogin.textContent = "Ingresar";
         btnLogin.style.fontWeight = "bold";
+      }
+    })
+    .catch(error => {
+      console.log('error', error);
+      // Aquí puedes manejar cualquier error que ocurra durante la solicitud
+      Swal.fire({
+        icon: 'error',
+        title: '¡Error!',
+        text: 'Error, en la respuesta del servidor.'
+      });
+      btnLogin.disabled = false;
+      btnLogin.textContent = "Ingresar";
+      btnLogin.style.fontWeight = "bold";
+    });
+}
+
+function getUser(accessToken) {
+  console.log(accessToken.slice(-1));
+  let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + accessToken.slice(-1), {
+    method: "GET"
+  });
+
+  promesa.then((response) => {
+    response.json()
+      .then(
+        (data) => {
+         this.localStorage.setItem("user", JSON.stringify(data));
+        })
+      .catch((error) => {
         console.error("Problema en el json", error);
       })
   }).catch((error) => {
-    Swal.fire({
-      icon: 'error',
-      title: '¡Error!',
-      text: 'Error, intentalo más tarde.'
-    });
-    btnLogin.disabled = false;
-    btnLogin.textContent = "Ingresar";
-    btnLogin.style.fontWeight = "bold";
     console.error(error, "Ocurrió un error en la solicitud");
   });
 }
 
+
+
 window.addEventListener("load", function (event) {
   event.preventDefault();
-  console.log(users);
   if (this.localStorage.getItem("user-logged") != null) {
     location.replace("../index.html");
   }//if

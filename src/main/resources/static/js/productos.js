@@ -1,31 +1,26 @@
 let btnCrearProducto = document.getElementById("btnCrearProducto");
-isAdmin();
-function isAdmin() {
-    if (this.localStorage.getItem("user-logged") != null) {
-        let promesa = fetch("https://elotesgutierrez.onrender.com/api/usuarios/" + this.localStorage.getItem("user-logged").charAt(this.localStorage.getItem("user-logged").length - 2), {
-            method: "GET"
-        });
+let listaProductos = document.getElementById("listaProductos");
 
-        promesa.then((response) => {
-            response.json()
-                .then(
-                    (data) => {
-                        if (data.userType == "admin") {
-                            btnCrearProducto.style.display = "initial";
-                        } else {
-                            btnCrearProducto.style.display = "none";
-                        }
-                    })
-                .catch((error) => {
-                    console.error("Problema en el json", error);
-                })
-        }).catch((error) => {
-            console.error(error, "Ocurrió un error en la solicitud");
-        });
+window.addEventListener("load", function (event) {
+    event.preventDefault();
+    if (isAdmin()) {
+        btnCrearProducto.style.display = "initial";
+    } else {
+        btnCrearProducto.style.display = "none";
+    }
+});
+
+function isAdmin() {
+    let user = JSON.parse(this.localStorage.getItem("user"));
+    if (user != null) {
+        if (user.userType == "admin") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
-let listaProductos = document.getElementById("listaProductos");
 function getData() {
     let promesa = fetch("https://elotesgutierrez.onrender.com/api/productos/", {
         method: "GET"

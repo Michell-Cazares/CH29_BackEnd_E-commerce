@@ -327,11 +327,12 @@ window.addEventListener("load", function (event) {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `¡Hasta la próxima!`,
+            title: `¡Hasta la próxima, ${JSON.parse(localStorage.getItem("user")).nombre}!`,
             showConfirmButton: false,
             timer: 1499
           })
           localStorage.removeItem("user-logged");
+          localStorage.removeItem("user");
           setTimeout(function () {
             if (this.location.pathname.includes("pages")) {
               window.location.href = './login.html';

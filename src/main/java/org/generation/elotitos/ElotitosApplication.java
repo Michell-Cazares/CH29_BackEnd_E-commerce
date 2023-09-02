@@ -19,7 +19,7 @@ public class ElotitosApplication {
 		FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new JwtFilter());
 		registrationBean.addUrlPatterns("/api/productos/*");
-		registrationBean.addUrlPatterns("/api/usuarios/*");
+		//registrationBean.addUrlPatterns("/api/usuarios/*");
 		registrationBean.addUrlPatterns("/api/compras/*");
 		registrationBean.addUrlPatterns("/api/compradetalle/*");
 		return registrationBean;
